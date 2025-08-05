@@ -40,7 +40,9 @@ Além disso, a aplicação oferece um dashboard para monitoramento em tempo real
   `http://localhost:5000/predict`  
 
 - Dashboard de monitoramento:  
-  `http://localhost:5000/monitor`  
+  `http://localhost:5000/monitor`
+  
+## Aplicação em Deploy
 
 ---
 
@@ -55,22 +57,6 @@ Além disso, a aplicação oferece um dashboard para monitoramento em tempo real
 
 
 ---
-
-## Como Executar
-
-### Pré-requisitos
-
-- Python 3.8+  
-- Ambiente virtual (recomendado)  
-
-### Passos
-
-1. Clone o repositório e acesse a pasta:
-
-```bash
-git clone https://github.com/seu-usuario/LSTMTrade.git
-cd LSTMTrade
-
 
 # Resumo do Projeto - Previsão de Preços de Ações com LSTM (Apple - AAPL) Arquivo: data_colect.py
 
