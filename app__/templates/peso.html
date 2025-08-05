@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClimaPrev</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+        <style>
+
+        .plotly-graph-div {
+            width: 100%;  /* Faz com que a div do gráfico utilize toda a largura da página */
+            height: 100%; /* Ajusta a altura para ser responsiva */
+        }
+    </style>
+
+    <style>
+
+        h1 {
+            color: #333;
+            text-align: center;
+            font-size: 3em;
+            margin: 20px 0;
+        }
+
+        .divider {
+            width: 80%;
+            border-top: 2px solid #ccc;
+            margin: 20px 0;
+        }
+
+        .message {
+            text-align: center;
+            font-size: 1.5em;
+            color: #555;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            margin-top: 200px;
+        }
+                .error {
+            color: red;
+        }
+        .form-group {
+            display: flex; /* Usar flexbox para alinhar itens em linha */
+            align-items: center; /* Alinhar verticalmente ao centro */
+            margin-bottom: 10px; /* Espaçamento entre os campos do formulário */
+        }
+        input[type="number"] {
+            margin-right: 10px; /* Espaçamento entre o input e o botão */
+        }
+
+    </style>
+</head>
+<body>
+   <h1 style="color: white;">Peso Follow-up</h1>
+    <form method="POST">
+      <div class="form-group">
+        <label for="peso" style="color: white;">Peso (kg):</label><br>
+        <input style="height:30px; width: 170px; border-radius: 999px" type="number" id="peso" name="peso" min="0.1" step="0.1" required><br>
+        <input style="height:50px; width: 170px; border: 5px solid #242c37; border-radius: 999px; background-color: transparent; text-align: center;   background-image: linear-gradient(160deg, #9ae5f3 0%, #06296b 100%);color: #fff;" type="submit" value="INSERIR PESO">
+
+     </div>
+    </form>
+
+    <h2 style="font-size: medium; text-align: center; color: {{ cor }};">{{ tendencia_texto }}</h2>
+
+    <h2></h2>
+    {% if grafico %}
+        {{ grafico|safe }}
+    {% else %}
+        <p>No data available to display chart.</p>
+    {% endif %}
+    <a href="/">Voltar</a>
+
+
+
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LSTMTrade</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <style>
+
+        h1 {
+            color: #333;
+            text-align: center;
+            font-size: 3em;
+            margin: 20px 0;
+        }
+
+        .divider {
+            width: 80%;
+            border-top: 2px solid #ccc;
+            margin: 20px 0;
+        }
+
+        .message {
+            text-align: center;
+            font-size: 1.5em;
+            color: #555;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            margin-top: 200px;
+        }
+    </style>
+</head>
+<body style="color: white;">
+ <div class="grid align__item" style="width:500px; margin-left:auto; margin-right:auto; margin-top: 100px;">
+
+ <h5 style="font-size: large;color: white;">Previsão de Preço de Ação Apple</h5>
+
+    <!-- Formulário de Upload de CSV -->
+    <h3>1. Upload de CSV</h3>
+    <form action="/predict_csv" method="post" enctype="multipart/form-data">
+        <label for="file">Envie um arquivo CSV com uma coluna chamada <code>close</code>:</label><br>
+        <input type="file" name="file" accept=".csv" required><br><br>
+        <input type="submit" value="Prever com CSV"><br><br>
+    </form>
+
+    <hr>
+
+    <!-- Formulário de Entrada Manual -->
+    <h3>2. Entrada Manual (últimos preços de fechamento)</h3>
+    <form action="/predict_manual" method="post">
+        <label for="prices">Cole aqui pelo menos 60 valores* separados por vírgula:</label><br>
+        <textarea name="prices" rows="5" cols="80" placeholder="ex: 150.23,151.44,149.98,..." required></textarea><br><br>
+        <input type="submit" value="Prever Manualmente"><br><br><br>
+    </form>
+
+    <h3>*Para que os resultados sejam coerentes o minimo de entradas é de 60 dias</h3><br><br>
+
+
+    {% if prediction %}
+        <hr>
+        <p style="color:#60d4ea ;font-size: larger;"><strong>${{ prediction }}</strong></p>
+       
+    {% endif %}
+
+    {% if predictions %}
+  <h3>📈 Previsão dos próximos preços de fechamento:</h3>
+  <ul>
+    {% for price in predictions %}
+      <li style="color:#60d4ea ;font-size: larger;">${{ price }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+  </div>
+</body>
+</html>
+{% endblock %}

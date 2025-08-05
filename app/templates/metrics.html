@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LSTMTrade</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <style>
+
+        h1 {
+            color: #333;
+            text-align: center;
+            font-size: 3em;
+            margin: 20px 0;
+        }
+
+        .divider {
+            width: 80%;
+            border-top: 2px solid #ccc;
+            margin: 20px 0;
+        }
+
+        .message {
+            text-align: center;
+            font-size: 1.5em;
+            color: #555;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            margin-top: 200px;
+        }
+    </style>
+
+  <title>Monitoramento do Modelo</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    canvas { max-width: 800px; margin-bottom: 40px; }
+  </style>
+      <title>Monitoramento do Modelo</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        canvas { max-width: 800px; margin-bottom: 40px; }
+    </style>
+</head>
+<body>
+    <h1>Monitoramento do Modelo em Produção</h1>
+
+    <canvas id="responseTimeChart"></canvas>
+    <canvas id="cpuChart"></canvas>
+    <canvas id="memoryChart"></canvas>
+
+    <script>
+        const responseTimeCtx = document.getElementById('responseTimeChart').getContext('2d');
+        const cpuCtx = document.getElementById('cpuChart').getContext('2d');
+        const memoryCtx = document.getElementById('memoryChart').getContext('2d');
+
+        const responseTimeChart = new Chart(responseTimeCtx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Tempo de Resposta (s)',
+                    data: [],
+                    borderColor: 'blue',
+                    fill: false,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                scales: { x: { display: true }, y: { beginAtZero: true } }
+            }
+        });
+
+        const cpuChart = new Chart(cpuCtx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Uso de CPU (%)',
+                    data: [],
+                    borderColor: 'red',
+                    fill: false,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                scales: { x: { display: true }, y: { beginAtZero: true, max: 100 } }
+            }
+        });
+
+        const memoryChart = new Chart(memoryCtx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Uso de Memória (MB)',
+                    data: [],
+                    borderColor: 'green',
+                    fill: false,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                scales: { x: { display: true }, y: { beginAtZero: true } }
+            }
+        });
+
+        async function fetchMetrics() {
+            const res = await fetch('/metrics_history');
+            const data = await res.json();
+
+            const labels = data.map(d => {
+                const date = new Date(d.timestamp * 1000);
+                return date.toLocaleTimeString();
+            });
+
+            const responseTimes = data.map(d => d.response_time);
+            const cpuPercents = data.map(d => d.cpu_percent);
+            const memoryMbs = data.map(d => d.memory_mb);
+
+            updateChart(responseTimeChart, labels, responseTimes);
+            updateChart(cpuChart, labels, cpuPercents);
+            updateChart(memoryChart, labels, memoryMbs);
+        }
+
+        function updateChart(chart, labels, data) {
+            chart.data.labels = labels;
+            chart.data.datasets[0].data = data;
+            chart.update();
+        }
+
+        // Atualiza a cada 5 segundos
+        fetchMetrics();
+        setInterval(fetchMetrics, 5000);
+    </script>
+</body>
+</html>
+{% endblock %}

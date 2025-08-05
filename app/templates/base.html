@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+</head>
+<body>
+
+    <header>
+        <div className="App">
+            <nav class="navbar">
+              <div class="logo">LSTMT<span style="color: #04c1e7">Trade</span></div>
+      
+              <ul class="nav-links">
+                <input type="checkbox" id="checkbox_toggle" />
+                <label for="checkbox_toggle" class="hamburger">
+                  &#9776;
+                </label>
+      
+                <div class="menu">
+                  <li>
+                    <a href="/">Home</a>
+                  </li>
+
+                  <li>
+                    <a href="/predict"><img src="{{ url_for('static', filename='image/graph.png') }}" width="20" height="20" alt="Logo"> Previsão</a>
+                  </li>
+                  <li>
+                    <a href="/metrics"><img src="{{ url_for('static', filename='image/monitor.png') }}" width="20" height="20" alt="Logo"> Monitoramento</a>
+                  </li>
+                </div>
+              </ul>
+            </nav>
+          </div>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+  
+</body>
+</html>
