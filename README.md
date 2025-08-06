@@ -51,6 +51,9 @@ A aplicação de previsão de preços de ações com LSTM está disponível em d
 - A aplicação processará os dados e realizará a previsão dos próximos 10 dias de preço das ações.
 - Os resultados serão exibidos em gráficos interativos para fácil visualização.
 
+- Adicionado arquivo para teste:
+    Arquivo_para_teste.csv
+
 ### Alerta Importante
 No primeiro acesso, a aplicação pode levar **mais de 50 segundos para iniciar** devido à limitação de "spin down" do serviço de hospedagem Render. Isso acontece porque a instância do servidor fica em modo ocioso e precisa ser "acordada" para responder às requisições. Esse atraso é normal e esperado apenas na primeira chamada após um período de inatividade.
 
